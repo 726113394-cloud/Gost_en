@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Gost v2.3.2 Docs | Ghost Tag · Redeemer · Demon Hunter</title>
+<link href="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/css2" rel="stylesheet">
+<link rel="stylesheet" href="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/all.min.css">
+<style>
+    /* ===== Base reset & liquid-glass background ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        background: #080a14;
+        font-family: 'Inter', sans-serif;
+        color: #eef2ff;
+        line-height: 1.6;
+        scroll-behavior: smooth;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    .bg-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -2;
+        background: radial-gradient(circle at 20% 30%, rgba(180, 70, 120, 0.35), rgba(60, 40, 140, 0.2) 40%, #080a14 85%);
+        animation: breatheGlow 12s ease-in-out infinite alternate;
+    }
+    .bg-glow::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 80% 70%, rgba(255, 80, 80, 0.15), transparent 60%);
+        animation: breatheGlow2 15s ease-in-out infinite alternate;
+    }
+    @keyframes breatheGlow {
+        0% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+        100% { transform: scale(1.2) rotate(3deg); opacity: 1; }
+    }
+    @keyframes breatheGlow2 {
+        0% { transform: scale(0.9) rotate(-2deg); opacity: 0.5; }
+        100% { transform: scale(1.1) rotate(2deg); opacity: 0.9; }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 100, 100, 0.4); border-radius: 10px; backdrop-filter: blur(10px); }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 100, 100, 0.7); }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+        position: sticky;
+        top: 0;
+        background: rgba(8, 10, 20, 0.55);
+        backdrop-filter: blur(40px) saturate(1.2);
+        -webkit-backdrop-filter: blur(40px) saturate(1.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        z-index: 100;
+        padding: 0.6rem 0;
+        transition: box-shadow 0.4s ease;
+    }
+    .navbar:hover {
+        box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+    .nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+    .logo {
+        font-weight: 800;
+        font-size: 1.8rem;
+        letter-spacing: -0.5px;
+    }
+    .logo span:first-child {
+        background: linear-gradient(135deg, #c084fc, #a78bfa);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .logo .colorful {
+        background: linear-gradient(90deg, #ff7b7b, #ffb347, #6ee7b7, #60a5fa, #f472b6, #ff7b7b);
+        background-size: 300% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: rainbow 4s linear infinite;
+    }
+    @keyframes rainbow { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
+
+    .section {
+        margin: 2.5rem 0;
+        scroll-margin-top: 80px;
+        animation: fadeSlideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+    .section:nth-child(2) { animation-delay: 0.05s; }
+    .section:nth-child(3) { animation-delay: 0.1s; }
+    .section:nth-child(4) { animation-delay: 0.15s; }
+    .section:nth-child(5) { animation-delay: 0.2s; }
+    .section:nth-child(6) { animation-delay: 0.25s; }
+
+    @keyframes fadeSlideUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #f0f2ff, #a5b4fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: -0.3px;
+        padding-left: 0;
+        border-left: none;
+        position: relative;
+        display: inline-block;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 60%;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(255, 100, 100, 0.6), transparent);
+        border-radius: 10px;
+    }
+
+    /* ===== Liquid glass cards ===== */
+    .card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(24px) saturate(1.1);
+        -webkit-backdrop-filter: blur(24px) saturate(1.1);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 28px !important;
+        padding: 1.5rem;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        opacity: 0.5;
+    }
+    .card:hover {
+        transform: translateY(-6px) scale(1.01);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+        background: rgba(255, 255, 255, 0.07);
+    }
+    .card-human {
+        background: rgba(46, 204, 113, 0.08) !important;
+        border-left: 3px solid rgba(46, 204, 113, 0.5) !important;
+    }
+    .card-ghost {
+        background: rgba(231, 76, 60, 0.08) !important;
+        border-left: 3px solid rgba(231, 76, 60, 0.5) !important;
+    }
+
+    .grid-2col { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .grid-3col { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    /* ===== Collapsible panels ===== */
+    .collapsible {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 28px;
+        margin: 1rem 0;
+        overflow: hidden;
+        transition: box-shadow 0.4s ease;
+    }
+    .collapsible:hover {
+        box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .collapsible-header {
+        padding: 1.2rem 1.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.3s ease;
+        color: #d4dcff;
+        font-size: 1.1rem;
+        user-select: none;
+    }
+    .collapsible-header:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #ffffff;
+    }
+    .collapsible-header i {
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .collapsible-content {
+        padding: 0 1.8rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                    padding 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        background: rgba(0,0,0,0.1);
+        border-top: 0px solid transparent;
+    }
+    .collapsible-content.show {
+        padding: 1.5rem 1.8rem;
+        max-height: 5000px;
+        border-top: 1px solid rgba(255,255,255,0.03);
+    }
+
+    /* ===== Version history ===== */
+    .version-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .version-item {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition: all 0.3s ease;
+    }
+    .version-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+    .version-header {
+        padding: 1rem 1.5rem;
+        background: transparent;
+        border-radius: 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    .version-header:hover { background: rgba(255, 255, 255, 0.04); }
+    .version-header h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+    .version-header .version-tag {
+        background: rgba(255, 80, 80, 0.2);
+        padding: 0.2rem 0.8rem;
+        border-radius: 30px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        border: 1px solid rgba(255, 80, 80, 0.1);
+    }
+    .version-header i {
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .version-detail {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                    padding 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        padding: 0 1.5rem;
+        color: #b8c4e0;
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+    .version-detail.show {
+        max-height: 3000px;
+        padding: 0 1.5rem 1.5rem 1.5rem;
+    }
+
+    /* ===== Version tabs ===== */
+    .version-tabs {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.2rem;
+    }
+    .version-tab {
+        padding: 0.5rem 1.4rem;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 40px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        color: #aab4d0;
+        transform-origin: center;
+        will-change: transform;
+    }
+    .version-tab:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+    .version-tab.active {
+        background: rgba(255, 80, 80, 0.15);
+        border-color: rgba(255, 80, 80, 0.3);
+        color: #ffb7b7;
+        box-shadow: 0 4px 20px rgba(255, 80, 80, 0.1);
+    }
+    .version-panel {
+        display: none;
+        animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .version-panel.active { display: block; }
+
+    /* ===== Tool card - liquid glass ===== */
+    .tool-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(24px) saturate(1.1);
+        -webkit-backdrop-filter: blur(24px) saturate(1.1);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 28px;
+        padding: 1.2rem 2rem;
+        margin: 1.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+    .tool-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+        opacity: 0.5;
+    }
+    .tool-card:hover {
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+        background: rgba(255, 255, 255, 0.07);
+    }
+    .tool-card .message {
+        flex: 1;
+    }
+    .tool-card .message p {
+        margin: 0 0 0.3rem 0;
+        color: #d4dcff;
+        font-size: 0.95rem;
+    }
+    .tool-card .message .highlight-icon {
+        color: #60a5fa;
+        margin-right: 0.4rem;
+    }
+    .tool-card .builtin-badge {
+        background: rgba(46, 204, 113, 0.15);
+        color: #6ee7b7;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.9rem;
+        border-radius: 30px;
+        font-weight: 600;
+        border: 1px solid rgba(46, 204, 113, 0.15);
+        backdrop-filter: blur(10px);
+        display: inline-block;
+    }
+    .migration-tool-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(59, 130, 246, 0.12);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 40px;
+        padding: 0.6rem 1.8rem;
+        color: #b8d0ff !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+        transform-origin: center;
+        will-change: transform;
+        white-space: nowrap;
+    }
+    .migration-tool-btn i {
+        color: #60a5fa;
+        transition: transform 0.3s ease;
+    }
+    .migration-tool-btn:hover {
+        background: rgba(59, 130, 246, 0.22);
+        border-color: rgba(59, 130, 246, 0.4);
+        color: #ffffff !important;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 28px rgba(37, 99, 235, 0.2);
+    }
+    .migration-tool-btn:hover i {
+        transform: translateX(3px);
+    }
+    .migration-tool-btn .arrow-icon {
+        color: rgba(96, 165, 250, 0.6);
+        font-size: 0.8rem;
+        margin-left: 2px;
+    }
+    .migration-tool-btn:hover .arrow-icon {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .link-buttons { margin-top: 0.8rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .link-btn {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 40px;
+        padding: 0.4rem 1.4rem;
+        color: #c8d0e8;
+        text-decoration: none;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        transform-origin: center;
+        will-change: transform;
+    }
+    .link-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .btn-detail {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #b0bcd8;
+        padding: 0.3rem 1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 0.75rem;
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        margin-top: 0.8rem;
+        display: inline-block;
+        backdrop-filter: blur(10px);
+        transform-origin: center;
+        will-change: transform;
+    }
+    .btn-detail:hover {
+        background: rgba(255, 80, 80, 0.15);
+        border-color: rgba(255, 80, 80, 0.3);
+        color: #ffb7b7;
+        transform: scale(1.05);
+    }
+
+    .badge {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #b0bcd8;
+        border-radius: 30px;
+        padding: 0.2rem 1rem;
+        font-size: 0.7rem;
+        display: inline-block;
+        backdrop-filter: blur(10px);
+    }
+
+    /* ===== Tables ===== */
+    .table-wrapper { overflow-x: auto; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 1rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    th, td {
+        padding: 0.75rem 1.2rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    th {
+        background: rgba(255, 255, 255, 0.05);
+        color: #c8d4f0;
+        font-weight: 600;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* ===== Modal ===== */
+    .modal {
+        display: none;
+        position: fixed;
+        top:0; left:0; width:100%; height:100%;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(30px) saturate(1.2);
+        -webkit-backdrop-filter: blur(30px) saturate(1.2);
+        z-index:1000;
+        align-items: center;
+        justify-content: center;
+        opacity:0;
+        transition: opacity 0.3s ease;
+    }
+    .modal.show { display: flex; opacity:1; }
+    .modal-content {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 40px;
+        max-width: 750px;
+        width:90%;
+        max-height:85vh;
+        overflow-y: auto;
+        padding:2rem;
+        transform: scale(0.95);
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    }
+    .modal.show .modal-content { transform: scale(1); }
+    .modal-close {
+        float: right;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #8892b0;
+        transition: all 0.3s ease;
+        line-height: 1;
+    }
+    .modal-close:hover { color: #fff; transform: rotate(90deg); }
+
+    /* ===== Carousel ===== */
+    .carousel-container {
+        margin: 2rem 0 2.5rem;
+        position: relative;
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(0,0,0,0.2);
+        cursor: pointer;
+    }
+    .carousel-slides { display: flex; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .carousel-slide { flex: 0 0 100%; }
+    .carousel-slide img { width: 100%; height: auto; max-height: 480px; object-fit: cover; display: block; }
+    .carousel-btn {
+        position: absolute;
+        top: 50%; transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 1.5rem;
+        padding: 0.5rem;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+        width: 48px; height: 48px;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.05); }
+    .carousel-btn-left { left: 1rem; }
+    .carousel-btn-right { right: 1rem; }
+    .carousel-dots {
+        position: absolute;
+        bottom: 1rem;
+        left: 0; right: 0;
+        display: flex; justify-content: center; gap: 0.6rem;
+        z-index: 10;
+    }
+    .dot {
+        width: 8px; height: 8px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        border: 1px solid transparent;
+    }
+    .dot.active {
+        background: #ff5e5e;
+        transform: scale(1.3);
+        box-shadow: 0 0 20px rgba(255, 80, 80, 0.3);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ===== Image viewer modal ===== */
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 1100;
+        padding-top: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.85);
+        backdrop-filter: blur(20px);
+    }
+    .image-modal-content {
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 85vh;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    }
+    .image-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        color: #f1f1f1;
+        font-size: 44px;
+        font-weight: 300;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        line-height: 1;
+        opacity: 0.6;
+    }
+    .image-modal-close:hover {
+        color: #fff;
+        opacity: 1;
+        transform: rotate(90deg);
+    }
+
+    /* ===== Table of contents ===== */
+    .toc-pill-btn {
+        position: fixed;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 60;
+        width: 48px;
+        height: 72px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(40px) saturate(1.2);
+        -webkit-backdrop-filter: blur(40px) saturate(1.2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        writing-mode: vertical-rl;
+        letter-spacing: 3px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #aab4d0;
+        user-select: none;
+    }
+    .toc-pill-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15); width: 52px; color: #fff; }
+    .toc-pill-btn .pill-icon { writing-mode: horizontal-tb; font-size: 1.2rem; }
+
+    .toc-panel {
+        position: fixed;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%) translateX(120%);
+        z-index: 59;
+        background: rgba(8, 10, 20, 0.7);
+        backdrop-filter: blur(48px) saturate(1.2);
+        -webkit-backdrop-filter: blur(48px) saturate(1.2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 28px;
+        padding: 1.2rem 0.8rem;
+        min-width: 170px;
+        max-height: 70vh;
+        overflow-y: auto;
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+        scrollbar-width: thin;
+    }
+    .toc-panel.open { transform: translateY(-50%) translateX(0); }
+    .toc-panel::-webkit-scrollbar { width: 3px; }
+    .toc-panel::-webkit-scrollbar-thumb { background: rgba(255, 80, 80, 0.3); border-radius: 10px; }
+    .toc-panel .toc-item {
+        display: block;
+        padding: 0.5rem 0.8rem;
+        color: #8892b0;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border-radius: 14px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        white-space: nowrap;
+        border-left: 2px solid transparent;
+    }
+    .toc-panel .toc-item:hover { color: #f0f2ff; background: rgba(255, 255, 255, 0.04); border-left-color: rgba(255, 255, 255, 0.2); }
+    .toc-panel .toc-item.active { color: #ffb7b7; background: rgba(255, 80, 80, 0.08); border-left-color: #ff5e5e; font-weight: 600; }
+
+    .toc-mobile-float {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 60;
+        display: none;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(40px) saturate(1.2);
+        -webkit-backdrop-filter: blur(40px) saturate(1.2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 40px;
+        padding: 0.6rem 1.8rem;
+        color: #c8d0e8;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    .toc-mobile-float:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15); color: #fff; }
+
+    .toc-mobile-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(40px) saturate(1.2);
+        -webkit-backdrop-filter: blur(40px) saturate(1.2);
+        z-index: 70;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        padding-top: 5rem;
+    }
+    .toc-mobile-overlay.open { display: flex; animation: fadeSlideUp 0.4s ease; }
+    .toc-mobile-overlay .close-toc {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        font-size: 2rem;
+        color: #8892b0;
+        cursor: pointer;
+        background: rgba(255,255,255,0.03);
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.04);
+        z-index: 71;
+    }
+    .toc-mobile-overlay .close-toc:hover { background: rgba(255,255,255,0.08); color: #fff; transform: rotate(90deg); }
+    .toc-mobile-overlay .toc-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        justify-content: center;
+        max-width: 500px;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    .toc-mobile-overlay .toc-item-mobile {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 20px;
+        padding: 0.8rem 1.2rem;
+        color: #c8d0e8;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        width: calc(50% - 0.4rem);
+        min-width: 120px;
+        justify-content: center;
+    }
+    .toc-mobile-overlay .toc-item-mobile:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: #fff; }
+
+    /* ===== Back to top ===== */
+    .back-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 55;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(40px) saturate(1.2);
+        -webkit-backdrop-filter: blur(40px) saturate(1.2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #b0bcd8;
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+    }
+    .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15); color: #fff; transform: scale(1.05); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+        .toc-pill-btn { display: none; }
+        .toc-panel { display: none; }
+        .toc-mobile-float { display: flex; }
+        .back-to-top {
+            bottom: 5.5rem;
+            right: 1rem;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+        }
+        .toc-mobile-overlay {
+            padding-top: 4.5rem;
+        }
+        .toc-mobile-overlay .close-toc {
+            top: 1rem;
+            right: 1.2rem;
+            width: 44px;
+            height: 44px;
+            font-size: 1.6rem;
+        }
+    }
+    @media (min-width: 901px) {
+        .toc-mobile-float { display: none !important; }
+        .toc-mobile-overlay { display: none !important; }
+        .toc-pill-btn { display: flex; }
+    }
+    @media (max-width: 750px) {
+        .container { padding: 0 1rem; }
+        .carousel-btn { width: 36px; height: 36px; font-size: 1rem; }
+        .carousel-slide img { max-height: 220px; }
+        .section-title { font-size: 1.4rem; }
+        .image-modal-content { max-width: 95%; }
+        .image-modal-close { font-size: 32px; right: 20px; top: 10px; }
+        .tool-card {
+            padding: 1rem 1.2rem;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .migration-tool-btn {
+            justify-content: center;
+            width: 100%;
+        }
+        .toc-mobile-overlay .toc-item-mobile {
+            width: calc(50% - 0.3rem);
+            min-width: 80px;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.8rem;
+        }
+        .toc-mobile-overlay .close-toc {
+            top: 0.8rem;
+            right: 0.8rem;
+            width: 40px;
+            height: 40px;
+            font-size: 1.4rem;
+        }
+        .toc-mobile-overlay {
+            padding-top: 4rem;
+        }
+    }
+
+    footer {
+        text-align: center;
+        padding: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        margin-top: 2rem;
+        color: #5a6688;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+    }
+
+    hr { border: none; border-top: 1px solid rgba(255,255,255,0.04); margin: 1rem 0; }
+    code {
+        font-family: 'JetBrains Mono', monospace;
+        background: rgba(255,255,255,0.04);
+        padding: 0.1rem 0.4rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: #d4dcff;
+    }
+    .ver-tag {
+        display: inline-block;
+        background: rgba(255, 80, 80, 0.15);
+        padding: 0.1rem 0.6rem;
+        border-radius: 30px;
+        font-size: 0.65rem;
+        margin-left: 0.5rem;
+        color: #ffa0a0;
+        border: 1px solid rgba(255, 80, 80, 0.1);
+    }
+    .ver-tag-current { background: rgba(46, 204, 113, 0.2); color: #6ee7b7; border-color: rgba(46, 204, 113, 0.2); }
+    .ver-tag-old { background: rgba(255, 80, 80, 0.1); color: #ff7b7b; }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="navbar">
+    <div class="nav-content">
+        <div class="logo"><span>G</span><span class="colorful">ost</span> <span style="font-size:0.8rem; font-weight:400; color:#8892b0;">v2.3.2</span></div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="en-content" class="lang-content active-lang">
+        <!-- Page header -->
+        <div style="padding: 1.5rem 0 1rem;">
+            <h1 style="font-size: 2.8rem; background: linear-gradient(135deg,#ffb347,#ff5e5e); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:-0.5px;">🎮 Gost — Ghost Tag · Redeemer · Demon Hunter Multi-Stage Faction Plugin</h1>
+            <p style="font-size:1.1rem; color:#b8c4e0; max-width: 800px;"><strong>Gost v2.3.2</strong> — a multiplayer asymmetric PvP mini-game plugin for Bukkit/Spigot Minecraft servers.<br>Inspired by <strong>《Dead Realm》</strong> — a tribute to that beloved but now-gone game, and an attempt to recreate its tension of chase and mind games inside Minecraft.</p>
+            <div class="badge">⚡ Redeemer Always Active | 🎮 Demon Hunter Reworked | 🌑 Darkness + Sprint Coexist | 🍖 Hunger System | 🗡️ Rush Spear All-Version Compatible | 🔊 Full Sound System Overhaul</div>
+            <div class="link-buttons">
+                <a href="https://modrinth.com/plugin/gost" target="_blank" class="link-btn"><i class="fab fa-modrinth"></i> Download on Modrinth</a>
+                <a href="https://726113394-cloud.github.io/PersonalPage/" target="_blank" class="link-btn"><i class="fab fa-bilibili"></i> Author's Page</a>
+                <a href="https://www.bilibili.com/video/BV1UTKs6KESo/" target="_blank" class="link-btn"><i class="fas fa-video"></i> Preview Video</a>
+                <a href="https://www.bilibili.com/video/BV1eHKj69E4H/" target="_blank" class="link-btn"><i class="fas fa-video"></i> 2.3.0 Update Overview</a>
+            </div>
+        </div>
+
+        <!-- Carousel -->
+        <div class="carousel-container" id="carousel">
+            <div class="carousel-slides" id="slides-carousel" style="transform: translateX(-100%);"><div class="carousel-slide"><img src="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/screenshot1.png" alt="Gost screenshot 1" loading="lazy"></div><div class="carousel-slide"><img src="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/screenshot2.png" alt="Gost screenshot 2" loading="lazy"></div><div class="carousel-slide"><img src="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/screenshot3.png" alt="Gost screenshot 3" loading="lazy"></div><div class="carousel-slide"><img src="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/screenshot4.png" alt="Gost screenshot 4" loading="lazy"></div><div class="carousel-slide"><img src="./Gost v2.3.2 文档 _ 鬼抓人 · 救赎者 · 猎魔人_files/screenshot5.png" alt="Gost screenshot 5" loading="lazy"></div></div>
+            <button class="carousel-btn carousel-btn-left" id="prev-carousel"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn carousel-btn-right" id="next-carousel"><i class="fas fa-chevron-right"></i></button>
+            <div class="carousel-dots" id="dots-carousel"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div style="font-size:0.7rem; text-align:center; margin-top:-1.2rem; margin-bottom:1.5rem; opacity:0.4; letter-spacing:1px;">
+            <i class="fas fa-image"></i> Click an image to view it full size
+        </div>
+
+        <!-- ===== Image viewer modal ===== -->
+        <div id="imageModal" class="image-modal">
+            <span class="image-modal-close" id="imageModalClose">×</span>
+            <img class="image-modal-content" id="imgModalContent">
+        </div>
+
+        <!-- Promo card - liquid glass -->
+        <div class="tool-card">
+            <div class="message">
+                <p><i class="fas fa-sync-alt highlight-icon"></i> <strong>Switched plugin versions but don't want to rewrite your config?</strong> Try my new plugin — a fully automatic config migration tool with smart merging and automatic backups.</p>
+                <div class="builtin-badge">✨ Built into v2.2.3 and newer</div>
+            </div>
+            <a href="https://726113394-cloud.github.io/ReloadConfig/" target="_blank" class="migration-tool-btn">
+                <i class="fas fa-rocket"></i> ReloadConfig Auto Migration Tool
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </a>
+        </div>
+
+        <!-- Core gameplay -->
+        <div class="section" id="section-core">
+            <div class="section-title">🎯 Core Gameplay</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card">
+                        <h3 style="color:#d4dcff;">Game Flow</h3>
+                        <ol style="margin-left:1.5rem; color:#b8c4e0;">
+                            <li><strong>Preparation Phase</strong> — Players enter the matchmaking queue; the game starts once full</li>
+                            <li><strong>Infection Phase</strong> — Ghosts chase and infect Humans, who can pick up items to defend themselves</li>
+                            <li><strong>Divine Guardian Phase</strong> — Automatically activates when the remaining Humans ≤ the trigger count</li>
+                            <li><strong>Demon Hunter Phase</strong> — Starts at 90 seconds remaining; Humans with Divine Guardian become Demon Hunters and fight back</li>
+                        </ol>
+                        <h3 style="color:#d4dcff; margin-top:1rem;">Two Factions</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <tbody><tr><th>Faction</th><th>Description</th></tr>
+                                <tr><td>👤 Human</td><td>Starting identity; becomes a Ghost once infected</td></tr>
+                                <tr><td>👻 Ghost</td><td>Infects Humans to make them join the Ghost faction; the Mother is the Ghost leader</td></tr>
+                            </tbody></table>
+                        </div>
+                        <h3 style="color:#d4dcff; margin-top:1rem;">Special Roles</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <tbody><tr><th>Role</th><th>Description</th></tr>
+                                <tr><td>🛡️ Divine Guardian</td><td>Blocks <strong>3</strong> Ghost attacks; each attack randomly teleports the attacker</td></tr>
+                                <tr><td>🎯 Demon Hunter</td><td>Converted from a Human during the Demon Hunter phase; wields the <strong>Reaper</strong> to fight back</td></tr>
+                                <tr><td>👑 Mother</td><td>Ghost faction leader; can attack Demon Hunters and infect normal Humans</td></tr>
+                                <tr><td>✨ Redeemer</td><td>Permanent role, up to 2 per match; holds the Holy Redemption item to convert Ghosts back to Humans</td></tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divine Guardian system -->
+        <div class="section" id="section-divine">
+            <div class="section-title">🛡️ Divine Guardian System</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="version-tabs">
+                        <div class="version-tab active" data-panel="dg-v222">📅 v2.2.2 &amp; earlier</div>
+                        <div class="version-tab" data-panel="dg-v223">📅 v2.2.2 ~ v2.3.0</div>
+                        <div class="version-tab" data-panel="dg-v231">📅 v2.3.1+ <span class="ver-tag ver-tag-current">Current</span></div>
+                    </div>
+                    <div class="version-panel active" id="dg-v222">
+                        <div class="grid-2col">
+                            <div class="card"><h3>⚔️ Mode 1: Classic Divine Guardian <span class="ver-tag ver-tag-old">Before v2.2.2</span></h3>
+                                <p><strong>Activation</strong>: Remaining Humans ≤ trigger count (default 2)<br><strong>Defense count</strong>: Blocks <strong>2</strong> attacks<br><strong>Teleport effect</strong>: The holder is randomly teleported when attacked<br><strong>Demon Hunter phase</strong>: All Divine Guardians refresh their defense count and convert into Demon Hunters</p>
+                            </div>
+                            <div class="card"><h3>⚔️ Mode 1: Classic Divine Guardian <span class="ver-tag">Since v2.2.2</span></h3>
+                                <p><strong>Activation</strong>: Remaining Humans ≤ trigger count (default 2)<br><strong>Defense count</strong>: Blocks <strong>3</strong> attacks<br><strong>Teleport effect</strong>: The attacker is randomly teleported nearby and slowed<br><strong>Demon Hunter phase</strong>: All Divine Guardians refresh their defense count and convert into Demon Hunters</p>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top:1rem;"><p><strong>Version notes</strong>:<br>🔹 Before v2.2.2: 2 defenses, teleports the holder<br>🔹 Since v2.2.2: 3 defenses, teleports and slows the attacker</p></div>
+                    </div>
+                    <div class="version-panel" id="dg-v223">
+                        <div class="card"><h3>🛡️ Classic Divine Guardian <span class="ver-tag">v2.2.2 ~ v2.3.0</span></h3>
+                            <p><strong>Activation</strong>: Remaining Humans ≤ trigger count (default 2)<br><strong>Defense count</strong>: Blocks <strong>3</strong> attacks<br><strong>Teleport effect</strong>: On each hit, the attacker is randomly teleported nearby and slowed<br><strong>Demon Hunter phase</strong>: All Divine Guardians refresh their defense count and convert into Demon Hunters</p>
+                            <p style="margin-top:0.8rem; color:#8892b0;">💡 The Divine Guardian mechanic remained stable in this version, identical to v2.2.2+.</p>
+                        </div>
+                    </div>
+                    <div class="version-panel" id="dg-v231">
+                        <div class="card"><h3>🛡️ Classic Divine Guardian <span class="ver-tag ver-tag-current">v2.3.1+ Current</span></h3>
+                            <p><strong>Activation</strong>: Remaining Humans ≤ trigger count (default 2)<br><strong>Defense count</strong>: Blocks <strong>3</strong> attacks<br><strong>Teleport effect</strong>: The attacker is randomly teleported nearby and slowed<br><strong>Demon Hunter phase</strong>: All Divine Guardians refresh their defense count and convert into Demon Hunters</p>
+                            <p style="margin-top:0.8rem; color:#8892b0;">💡 The classic Divine Guardian mechanic is unchanged. The new Redeemer system has its own independent Divine Guardian (see the Redeemer section below).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Redeemer system -->
+        <div class="section" id="section-redeemer">
+            <div class="section-title">✨ Redeemer System</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="version-tabs">
+                        <div class="version-tab active" data-panel="rd-v222">📅 v2.2.2 &amp; earlier</div>
+                        <div class="version-tab" data-panel="rd-v223">📅 v2.2.2 ~ v2.3.0</div>
+                        <div class="version-tab" data-panel="rd-v231">📅 v2.3.1+ <span class="ver-tag ver-tag-current">Current</span></div>
+                    </div>
+                    <div class="version-panel active" id="rd-v222">
+                        <div class="grid-2col">
+                            <div class="card"><h3>✨ Redeemer Mode <span class="ver-tag ver-tag-old">Before v2.2.2</span></h3>
+                                <p><strong>Activation</strong>: When Humans drop to <strong>1</strong>, the last Human becomes the <strong>Redeemer</strong><br><strong>Holy Redemption item</strong>: The Redeemer receives an exclusive item that converts Ghosts back to Humans<br><strong>Random teleport</strong>: After use, the Redeemer is randomly teleported to a safe spot<br><strong>Use limit</strong>: The item has <strong>2</strong> uses (configurable); afterwards the player reverts to a normal Human<br><strong>Visuals</strong>: The Redeemer is highlighted the whole time and gains a speed effect</p>
+                            </div>
+                            <div class="card"><h3>✨ Redeemer Mode <span class="ver-tag">Since v2.2.2</span></h3>
+                                <p><strong>Activation</strong>: The Human who receives the [Holy Redemption] item becomes the <strong>Redeemer</strong>; they can no longer receive Divine Guardian and the role cannot be cancelled<br><strong>Holy Redemption item</strong>: The Redeemer receives an exclusive item that converts Ghosts back to Humans<br><strong>Random teleport</strong>: After use, the Redeemer is randomly teleported to a safe spot<br><strong>Use limit</strong>: The item has <strong>1</strong> use; the <strong>Redeemer</strong> identity is kept afterwards<br><strong>Visuals</strong>: The Redeemer is surrounded by cloud particles the whole time</p>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top:1rem;"><p><strong>Version evolution</strong>:<br>🔹 Before v2.2.2: The last player becomes the Redeemer, 2 uses, reverts to a normal Human when used up<br>🔹 Since v2.2.2: A randomly granted item creates the Redeemer, 1 use, Redeemer identity is retained</p></div>
+                    </div>
+                    <div class="version-panel" id="rd-v223">
+                        <div class="card"><h3>✨ Redeemer Mode <span class="ver-tag">v2.2.2 ~ v2.3.0</span></h3>
+                            <p><strong>Activation</strong>: The Human who receives the [Holy Redemption] item becomes the <strong>Redeemer</strong>; they can no longer receive Divine Guardian and the role cannot be cancelled<br><strong>Holy Redemption item</strong>: The Redeemer receives an exclusive item that converts Ghosts back to Humans<br><strong>Random teleport</strong>: After use, the Redeemer is randomly teleported to a safe spot<br><strong>Use limit</strong>: The item has <strong>1</strong> use; the <strong>Redeemer</strong> identity is kept afterwards<br><strong>Visuals</strong>: The Redeemer is surrounded by cloud particles the whole time</p>
+                            <p style="margin-top:0.8rem; color:#8892b0;">💡 The Redeemer mechanic in this version is identical to v2.2.2+.</p>
+                        </div>
+                    </div>
+                    <div class="version-panel" id="rd-v231">
+                        <div class="card"><h3>✨ Redeemer System (Permanent) <span class="ver-tag ver-tag-current">v2.3.1+ Current</span></h3>
+                            <p><strong>Permanent mechanic</strong>: The Redeemer is <strong>present in every match</strong>, up to <strong>2</strong> per match<br><strong>Activation</strong>: Randomly bound to a Human player via the "Holy Redemption" item<br><strong>Independent Divine Guardian</strong>: The Redeemer directly gains an independent Divine Guardian (<strong>2</strong> defenses) without affecting the original Divine Guardian system<br><strong>Holy Redemption item</strong>: The Redeemer receives an exclusive item that converts Ghosts back to Humans<br><strong>Use limit</strong>: The item has <strong>2</strong> uses; the Redeemer identity is kept afterwards<br><strong>Random teleport</strong>: After use, the Redeemer is randomly teleported to a safe spot<br><strong>Visuals</strong>: The Redeemer is surrounded by cloud particles the whole time</p>
+                            <p style="margin-top:0.8rem; color:#8892b0;">💡 Major v2.3.1 update: mode switching removed, Redeemer is now permanent; independent guardian 2 defenses + 2 Holy Redemption uses; up to 2 per match.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demon Hunter phase -->
+        <div class="section" id="section-demonhunter">
+            <div class="section-title">⚔️ Demon Hunter Phase</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="version-tabs">
+                        <div class="version-tab active" data-panel="dh-old">📅 v2.2.2 ~ v2.3.0</div>
+                        <div class="version-tab" data-panel="dh-new">📅 v2.3.1+ <span class="ver-tag ver-tag-current">Current</span></div>
+                    </div>
+                    <div class="version-panel active" id="dh-old">
+                        <div class="card"><h3>⚔️ Demon Hunter Phase <span class="ver-tag">v2.2.2 ~ v2.3.0</span></h3>
+                            <ul style="margin-left:1.5rem;">
+                                <li>All Humans with Divine Guardian become <strong>Demon Hunters</strong></li>
+                                <li>Demon Hunters hold the <strong>Reaper</strong> item and kill Ghosts based on damage dealt (configurable)</li>
+                                <li><strong>Normal Ghosts</strong> cannot infect Humans and can only evade the hunt</li>
+                                <li><strong>The Mother</strong> can attack Demon Hunters, dealing a configurable amount of damage each hit</li>
+                                <li>The Mother must hit <strong>3 times</strong> to break a Demon Hunter's Divine Guardian</li>
+                                <li>All <strong>Holy Redemption</strong> items are removed</li>
+                                <li>Ghost health is adjusted (Normal Ghost 2❤, Mother Ghost 3❤)</li>
+                                <li>Healing is <strong>disabled</strong> during the Demon Hunter phase (natural regen, hunger, and potions all ineffective)</li>
+                                <li>Killed Ghosts enter <strong>spectator mode</strong> (respawn time configurable)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="version-panel" id="dh-new">
+                        <div class="card"><h3>⚔️ Demon Hunter Phase (Reworked) <span class="ver-tag ver-tag-current">v2.3.1+ Current</span></h3>
+                            <h4 style="color:#ffa07a; margin-top:1rem;">🗡️ Reaper Weapon Rework</h4>
+                            <ul style="margin-left:1.5rem;"><li><strong>Left-click single target</strong>: Normal Ghost killed in <strong>2 hits</strong>, Mother Ghost in <strong>4 hits</strong> (pure hit-count based, independent of health)</li><li><strong>Right-click AoE skill "Harvest"</strong>: 4-block radius AoE, 10s cooldown, impact particles + wither death sound</li><li>Attack cooldown <strong>2s</strong></li></ul>
+                            <h4 style="color:#ffa07a; margin-top:1rem;">👻 Ghost Revival Mechanic (Improved)</h4>
+                            <ul style="margin-left:1.5rem;"><li>After being killed, enters a <strong>death state</strong>: invisible but free to move (no position lock, no slowdown, no flight)</li><li><strong>10-second revival countdown</strong> (shown on the ActionBar)</li><li>On revival, <strong>randomly teleported</strong> to a coordinate inside the game area (not in place)</li><li>Restores the original identity (Normal Ghost / Mother) and rejoins the match</li><li>A <strong>red-yellow BURST firework</strong> + explosion particles + wither death sound bloom at the kill location</li><li>Kill subtitle (bilingual): 💥 Elimination! / 💥 击杀成功!</li></ul>
+                            <h4 style="color:#ffa07a; margin-top:1rem;">👑 Mother Evolution System (New in v2.3.1)</h4>
+                            <ul style="margin-left:1.5rem;"><li><strong>Trigger</strong>: Demon Hunter phase with more than 5 players in the match</li><li><strong>Spawn</strong>: A <strong>glowing emerald</strong> is placed at a random coordinate in the game area (enchant particles + glow marker)</li><li><strong>Pickup requirement</strong>: Only Normal Ghosts can pick it up</li><li><strong>Effect</strong>: Transforms into the Mother Ghost, gains Mother health, and can hunt Demon Hunters</li><li><strong>Announcement / subtitle / sound</strong> (bilingual): ✦ A Mother Upgrade Emerald has appeared! / ✦ 游戏区域出现母体升级绿宝石！<br>Transform subtitle: 👑 You are the Mother Ghost! / 👑 你成为了母体鬼!<br>Broadcast: [Player] picked up the Mother Emerald and transformed into the Mother Ghost!<br>Sounds: challenge complete cue + ender dragon growl</li><li>The emerald is automatically cleaned up when the game ends</li></ul>
+                            <h4 style="color:#ffa07a; margin-top:1rem;">🛡️ Demon Hunter Phase Defense Rules</h4>
+                            <ul style="margin-left:1.5rem;"><li><strong>Faction damage protection</strong>: Demon Hunters cannot damage Humans/Demon Hunters; Ghosts cannot damage Ghosts (the Mother cannot kill Normal Ghosts); Humans cannot damage Humans</li><li><strong>Death interception</strong>: Real death events for Ghosts/Demon Hunters are cancelled — no respawn point teleport</li><li><strong>Environmental damage immunity</strong>: Ghosts/Demon Hunters are immune to fall/lava/fire and other environmental damage</li><li><strong>Normal healing</strong>: Healing is no longer disabled; players can recover normally</li></ul>
+                            <h4 style="color:#ffa07a; margin-top:1rem;">👑 Mother Attacking Demon Hunters</h4>
+                            <ul style="margin-left:1.5rem;"><li><strong>Demon Hunter without Divine Guardian</strong>: Mother lands <strong>4 hits</strong> → infection (enters spectator mode)</li><li><strong>Demon Hunter with Divine Guardian</strong>: First <strong>3 hits</strong> to break the guardian, then <strong>4 hits</strong> to infect</li></ul>
+                            <h4 style="color:#ffa07a; margin-top:1rem;">🚫 Mother Root</h4>
+                            <ul style="margin-left:1.5rem;"><li>Before the match starts, the Mother is randomly locked to a coordinate in the game area and <strong>cannot move for 20 seconds</strong></li></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item system -->
+        <div class="section" id="section-items">
+            <div class="section-title">🧰 Item System</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 View item descriptions <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card">
+                        <p>Items are <strong>distributed on a timer</strong> during the match — the interval is configurable (default: every 60 seconds) — and items also spawn randomly in the area. When items are distributed, all player positions are revealed for 5 seconds.</p>
+                        <p><strong>Inventory management (v2.3.1)</strong>: Up to <strong>9</strong> items during a match. Items cannot be placed in the inventory, do not stack, and duplicates are not allowed (except universal items). The Reaper / Holy Redemption are forced into the first slot.</p>
+                        <p style="margin-top:0.8rem; color:#6ee7b7;"><strong>🗡️ Rush Spear (v2.3.2 update)</strong>:<br>• Right-click to dash forward <strong>5 blocks</strong>; the item is consumed immediately.<br>• <strong>All-version compatible</strong>: displays as a <strong>Trident</strong> on <strong>&lt;1.21.4</strong> and as a <strong>Spear</strong> on ≥1.21.4 — identical functionality.<br>• Sound: spear dash sound (built into the game).</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-3col" id="items-list-en"><div class="card card-human"><strong>🗡️ Reaper</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Demon Hunter exclusive weapon (dual skill)</span><br><button class="btn-detail" data-item="reaper">📖 Details</button></div><div class="card card-human"><strong>💊 Holy Redemption</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Redeemer exclusive item</span><br><button class="btn-detail" data-item="holyRedemption">📖 Details</button></div><div class="card card-human"><strong>❤️ Second Chance</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Passive trigger</span><br><button class="btn-detail" data-item="secondChance">📖 Details</button></div><div class="card "><strong>🧊 Frost Ball</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Throwing control item</span><br><button class="btn-detail" data-item="iceBall">📖 Details</button></div><div class="card "><strong>🥩 Stinky Steak</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Speed item</span><br><button class="btn-detail" data-item="stinkySteak">📖 Details</button></div><div class="card card-human"><strong>🔮 Soul Control</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Control item</span><br><button class="btn-detail" data-item="soulControl">📖 Details</button></div><div class="card card-ghost"><strong>👁️ Soul Detector</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Detection item</span><br><button class="btn-detail" data-item="soulDetector">📖 Details</button></div><div class="card "><strong>🪄 Teleport Pearl</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Tactical teleport item</span><br><button class="btn-detail" data-item="teleportPearl">📖 Details</button></div><div class="card card-human"><strong>🧪 Adrenaline</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Human exclusive</span><br><button class="btn-detail" data-item="adrenaline">📖 Details</button></div><div class="card card-ghost"><strong>🔥 Frenzy Potion</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Ghost exclusive</span><br><button class="btn-detail" data-item="frenzy">📖 Details</button></div><div class="card "><strong>🗡️ Rush Spear</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Right-click dash, all-version compatible</span><br><button class="btn-detail" data-item="spearRush">📖 Details</button></div><div class="card "><strong>🧪 Levitation Potion</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">Right-click for levitation</span><br><button class="btn-detail" data-item="levitationPotion">📖 Details</button></div></div>
+        </div>
+
+        <!-- ===================== Hunger System (New in v2.3.2) ===================== -->
+        <div class="section" id="section-hunger">
+            <div class="section-title">🍖 Hunger System</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card">
+                        <p><strong>New in v2.3.2</strong> — In-match hunger drain, configurable and toggleable. In-match hunger is independent of the world outside; after settlement the pre-match food level is restored.</p>
+
+                        <h4 style="color:#d4dcff; margin-top:1.2rem;">⚙️ Core Mechanics</h4>
+                        <ul style="margin-left:1.5rem; color:#b8c4e0;">
+                            <li>All players' food level is <strong>restored to full</strong> when entering a match</li>
+                            <li><strong>Sprinting</strong> during the game drains food normally</li>
+                            <li>In-match hunger is <strong>independent</strong> of outside hunger; the pre-match state is restored after settlement</li>
+                            <li>This feature supports a <strong>toggle</strong> and <strong>restore speed</strong> configuration</li>
+                        </ul>
+
+                        <h4 style="color:#d4dcff; margin-top:1.2rem;">👤 Human Crouch Recovery</h4>
+                        <ul style="margin-left:1.5rem; color:#b8c4e0;">
+                            <li>Press <strong>[Shift] to crouch</strong> to restore <strong>1</strong> hunger per second</li>
+                        </ul>
+
+                        <h4 style="color:#d4dcff; margin-top:1.2rem;">👻 Ghost Crouch Recovery</h4>
+                        <ul style="margin-left:1.5rem; color:#b8c4e0;">
+                            <li>Press <strong>[Shift] to crouch</strong> to restore 1 hunger every <strong>0.8</strong> seconds</li>
+                        </ul>
+
+                        <h4 style="color:#d4dcff; margin-top:1.2rem;">🔄 Faction Conversion</h4>
+                        <ul style="margin-left:1.5rem; color:#b8c4e0;">
+                            <li>Food level is <strong>restored to full</strong> when switching factions</li>
+                        </ul>
+
+                        <h4 style="color:#d4dcff; margin-top:1.2rem;">⚔️ Demon Hunter Phase</h4>
+                        <ul style="margin-left:1.5rem; color:#b8c4e0;">
+                            <li>Food level is <strong>restored to full</strong> and <strong>no longer drains</strong> during the Demon Hunter phase</li>
+                        </ul>
+
+                        <div style="margin-top:1rem; padding:0.8rem 1.2rem; background:rgba(46,204,113,0.08); border-radius:16px; border-left:3px solid #2ecc71;">
+                            <p style="color:#6ee7b7; font-size:0.9rem;"><i class="fas fa-info-circle"></i> Configuration options are located under the <code>food</code> node in <code>config.yml</code>, supporting toggles, restore speed and other parameters.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sound system -->
+        <div class="section" id="section-sound">
+            <div class="section-title">🔊 Sound System</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for sound details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card">
+                        <h3>Item Distribution Sounds</h3>
+                        <ul><li>Played for each player receiving an item: <code>ENTITY_ITEM_PICKUP</code> (different pitch per item)</li><li>Global cue once distribution finishes: <code>BLOCK_NOTE_BLOCK_PLING</code></li></ul>
+                        <h3>Faction Switch Sounds</h3>
+                        <ul><li>👤 Human → 👻 Ghost: <code>ENTITY_VEX_AMBIENT</code> (eerie whisper)</li><li>👻 Ghost → 👤 Human: <code>ENTITY_PLAYER_LEVELUP</code> (level-up sound)</li></ul>
+                        <h3>Phase Sounds</h3>
+                        <ul><li>Last 3 seconds of the preparation countdown: <code>BLOCK_NOTE_BLOCK_HAT</code> (once per second)</li><li>Game officially begins: <code>ENTITY_ENDER_DRAGON_GROWL</code> (server-wide)</li><li>Human victory: Humans get <code>UI_TOAST_CHALLENGE_COMPLETE</code>, Ghosts get <code>ENTITY_WITHER_DEATH</code></li><li>Ghost victory: Ghosts get <code>UI_TOAST_CHALLENGE_COMPLETE</code>, Humans get <code>ENTITY_WITHER_DEATH</code></li></ul>
+                        <h3>Demon Hunter Kill Feedback (v2.3.1)</h3>
+                        <ul><li>Firework + explosion particles + <code>ENTITY_WITHER_DEATH</code> at the kill location</li><li>Mother upgrade: <code>ENTITY_ENDER_DRAGON_GROWL</code></li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ghost-to-human conversion -->
+        <div class="section" id="section-ghost2human">
+            <div class="section-title">👻 Ghost-to-Human Conversion</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card">
+                        <p>When <strong>3 minutes</strong> remain in the game, the system randomly converts some <strong>non-Mother Ghost players</strong> back to the Human faction (disabled by default; can be enabled in the config).</p>
+                        <ul style="margin-left:1.5rem;"><li>Converted players keep their accumulated time record as a Ghost</li><li>They receive a <strong>20% bonus compensation</strong></li><li>They also inherit the prize earned while playing as a Ghost</li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Economy & rewards -->
+        <div class="section" id="section-economy">
+            <div class="section-title">🏆 Economy &amp; Rewards</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card">
+                        <h3>Entry Fee &amp; Prize Pool</h3>
+                        <p>Players must pay an <strong>entry fee</strong> to join (default 100 coins); the fee flows into the <strong>Human prize pool</strong>. Servers can also set an <strong>extra bonus</strong> (default 5000 coins) to increase the total pool.</p>
+                        <h3>Victory Prize Distribution</h3>
+                        <div class="table-wrapper"><table><tbody><tr><th>Winning Side</th><th>Distribution Rule</th></tr><tr><td>👤 Human Victory</td><td>Humans receive <strong>70%</strong> of the pool, Ghosts receive <strong>30%</strong></td></tr><tr><td>👻 Ghost Victory</td><td>Ghosts receive <strong>100%</strong> of the pool</td></tr></tbody></table></div>
+                        <h3>Individual Prize Calculation</h3>
+                        <div class="table-wrapper"><table><tbody><tr><th>Faction</th><th>Distribution Method</th></tr><tr><td>👤 Human</td><td>100% distributed by <strong>survival time ratio</strong></td></tr><tr><td>👻 Ghost</td><td>70% by <strong>Ghost survival time</strong> + 30% by <strong>infection count ratio</strong></td></tr></tbody></table></div>
+                        <h3>Demon Hunter Rewards</h3>
+                        <p>Each Ghost killed by a Demon Hunter grants <strong>30% of the Human prize pool</strong>; the <strong>Mother</strong> killing a Demon Hunter grants a <strong>50%</strong> extra reward (higher than a normal infection reward).</p>
+                        <h3>Prize Leaderboard</h3>
+                        <p>A prize leaderboard is shown after the game, with 🥇🥈🥉 medals for the top three.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special systems -->
+        <div class="section" id="section-features">
+            <div class="section-title">✨ Special Systems</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 Expand for details <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="grid-2col">
+                        <div class="card"><h3>🌑 Darkness + Sprint Coexist</h3><p>Uses the native Minecraft <strong>DARKNESS</strong> effect (1.19+) or <strong>BLINDNESS</strong> (older versions).<br>An attribute modifier adds <strong>30% movement speed</strong> to offset the darkness effect's impact on sprinting.<br>Player sprint state is checked every 10 ticks to automatically restore blocked sprinting.<br>Admins and creative-mode players are also affected by the darkness effect.</p></div>
+                        <div class="card"><h3>👻 Ghost Player Particles</h3><p>Ghost players display continuous orbiting particle effects.<br><strong>Mother Ghost</strong>: red particles; <strong>Normal Ghost</strong>: green particles.<br>Supports 21 particle types with customizable RGB colors.<br>Whether to display during the preparation phase is configurable.</p></div>
+                        <div class="card"><h3>💬 Fully Optimized Language System (Core Cover version improvement)</h3><p>Greatly expanded default message library with 90+ default Chinese messages.<br>Smart message fallback — no more raw error codes.<br>Error isolation protection that does not affect the core game flow.<br>Plugin startup protection — the plugin still runs even if LanguageManager fails to initialize.</p></div>
+                        <div class="card"><h3>❤️ Heartbeat System</h3><p>Humans hear a looping Warden heartbeat sound during the game.<br>Admins can toggle it via <code>/gostadmin heartbeat</code>.</p></div>
+                        <div class="card"><h3>🎒 Inventory Management System (v2.3.1)</h3><p>Up to <strong>9</strong> items during a match.<br>Items cannot be placed in the inventory (forced back to the hotbar).<br>Items do not stack, duplicates are not allowed, and two Adrenalines are not allowed (except universal items).<br><strong>Reaper</strong> / <strong>Holy Redemption</strong> are forced into the first slot.</p></div>
+                        <div class="card"><h3>🔥 Selection Particle Frame (v2.3.1)</h3><p>A <strong>flame particle frame</strong> is automatically displayed after setting a selection, lasting <strong>30 seconds</strong>.<br>Helps admins visually confirm the game area boundary.</p></div>
+                        <div class="card"><h3>🌐 Bilingual Subtitles (v2.3.1)</h3><p>Core events such as revival waiting, respawn, harvest, redemption and Mother root now have <strong>bilingual (Chinese/English) subtitles</strong>.<br>Automatically switched based on the server language setting.</p></div>
+                        <div class="card"><h3>📦 Version Compatibility</h3><p>Supports <strong>all versions from 1.20.x to 1.21.x</strong>.<br>Particles / sounds / item names are automatically version-compatible.<br>The Rush Spear (v2.3.2) is now <strong>fully version-compatible</strong>: Trident on &lt;1.21.4, Spear on ≥1.21.4.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commands -->
+        <div class="section" id="section-commands">
+            <div class="section-title">📋 Commands</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 View all commands <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="card"><h3>📌 Command Consolidation Notes</h3><p>As of v2.3.1, the <code>/divineguardian</code> and <code>/ghostparticle</code> commands have been merged into <code>/gostadmin</code>.<br>The legacy commands still work, but the new unified format is recommended. All available commands and permissions are listed below.</p></div>
+                    <div class="table-wrapper">
+                        <table>
+                            <tbody><tr><th>Command</th><th>Description</th><th>Permission</th></tr>
+                            <tr><td><code>/gost join</code></td><td>Join the game queue</td><td>gost.player</td></tr>
+                            <tr><td><code>/gost leave</code></td><td>Leave the game queue</td><td>gost.player</td></tr>
+                            <tr><td><code>/gost info</code></td><td>View game information</td><td>gost.player</td></tr>
+                            <tr><td><code>/gost help</code></td><td>Show help</td><td>gost.player</td></tr>
+                            <tr><td><code>/gost start</code></td><td>Admin force-start the game (skips the player count requirement)</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gost stop</code></td><td>Force-end the game</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gost reload</code></td><td>Reload the configuration file</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin tool</code></td><td>Get the selection tool (magma cream)</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin pos1/pos2</code></td><td>Set selection points</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin save/list/load/delete/info</code></td><td>Area management</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin dark &lt;on/off/status&gt;</code></td><td>Darkness effect management</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin heartbeat &lt;on/off/status&gt;</code></td><td>Heartbeat sound management</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin testmode</code></td><td>Single-player test mode</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin giveitem &lt;item&gt;</code></td><td>Directly receive a specified item (fuzzy matching supported)</td><td>gost.admin</td></tr>
+                            <tr><td><code>/gostadmin economy &lt;set|status&gt;</code></td><td>Economy management</td><td>gost.admin</td></tr>
+                            <tr><td><code style="color:#ffa07a;">/divineguardian</code> <span class="ver-tag">Legacy</span></td><td>Divine Guardian management (merged into <code>/gostadmin divine</code>)</td><td>gost.admin</td></tr>
+                            <tr><td><code style="color:#ffa07a;">/ghostparticle</code> <span class="ver-tag">Legacy</span></td><td>Ghost particle management (merged into <code>/gostadmin particle</code>)</td><td>gost.admin</td></tr>
+                        </tbody></table>
+                    </div>
+                    <div class="card" style="margin-top:1rem;"><h4>📌 New Consolidated Commands</h4><ul><li><code>/gostadmin divine &lt;status|clear&gt;</code> — Divine Guardian management (replaces <code>/divineguardian</code>)</li><li><code>/gostadmin particle &lt;status|enable|disable&gt;</code> — Ghost particle management (replaces <code>/ghostparticle</code>)</li></ul><p style="margin-top:0.5rem; color:#8892b0;">💡 The legacy <code>/divineguardian</code> and <code>/ghostparticle</code> commands still work, but migrating to the new commands is recommended for consistency.</p></div>
+                    <div class="card" style="margin-top:1rem;"><h4>🔥 Selection Particle Frame</h4><p>After setting a selection, a flame particle frame is displayed along the boundary for 30 seconds.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permissions -->
+        <div class="section" id="section-permissions">
+            <div class="section-title">🔐 Permissions</div>
+            <div class="collapsible">
+                <div class="collapsible-header">📖 View permission nodes <i class="fas fa-chevron-down"></i></div>
+                <div class="collapsible-content">
+                    <div class="table-wrapper">
+                        <table>
+                            <tbody><tr><th>Permission Node</th><th>Description</th><th>Default</th></tr>
+                            <tr><td><code>gost.use</code></td><td>Basic command permission</td><td>All players</td></tr>
+                            <tr><td><code>gost.player</code></td><td>Player game permission</td><td>All players</td></tr>
+                            <tr><td><code>gost.admin</code></td><td>Administrator permission</td><td>OP</td></tr>
+                            <tr><td><code style="color:#ffa07a;">gost.admin.divineguardian</code> <span class="ver-tag">Legacy</span></td><td>Divine Guardian management permission (merged into <code>gost.admin</code>)</td><td>OP</td></tr>
+                            <tr><td><code style="color:#ffa07a;">gost.admin.ghostparticle</code> <span class="ver-tag">Legacy</span></td><td>Ghost particle management permission (merged into <code>gost.admin</code>)</td><td>OP</td></tr>
+                        </tbody></table>
+                    </div>
+                    <div class="card" style="margin-top:1rem;"><p><strong>Permission simplification notes (v2.3.1)</strong>:<br>The legacy <code>gost.admin.divineguardian</code> and <code>gost.admin.ghostparticle</code> permissions have been merged into <code>gost.admin</code>.<br>The legacy permission nodes are still valid, but the new version uses <code>gost.admin</code> uniformly for all administrator features.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version history -->
+        <div class="section" id="section-versions">
+            <div class="section-title">📈 Version History</div>
+            <div class="version-list" id="version-list-en"><div class="version-item">
+                <div class="version-header" data-idx="0">
+                    <div><h3>v2.3.2 <span class="version-tag">Current | Rush Spear all-version compatibility &amp; Hunger System</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-0"><strong>🗡️ Rush Spear — All-Version Compatibility</strong><br>• The Rush Spear now supports <strong>all versions</strong> (1.20.x ~ 1.21.x)<br>• Displays as a <strong>Trident</strong> on <strong>&lt;1.21.4</strong> and as a <strong>Spear</strong> on ≥1.21.4 — identical functionality<br>• Right-click to dash forward <strong>5 blocks</strong>; the item is consumed immediately<br><br><strong>🍖 New Hunger System</strong><br>• In-match hunger drain, <strong>configurable and toggleable</strong><br>• In-match hunger is <strong>independent</strong> of outside hunger; the pre-match state is restored after settlement<br>• Hunger <strong>restored to full</strong> on entering a match; sprinting drains it normally<br>• Human crouch (Shift): restores <strong>1</strong> hunger per second<br>• Ghost crouch (Shift): restores 1 hunger every <strong>0.8</strong> seconds<br>• Hunger <strong>restored to full</strong> when switching factions<br>• Hunger <strong>restored to full and no longer drains</strong> during the Demon Hunter phase<br><br><strong>⚙️ Config version upgraded to 29</strong><br>Plugin version upgraded to 2.3.2</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="1">
+                    <div><h3>v2.3.1 <span class="version-tag">Redeemer Rework &amp; Reaper Redo</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-1"><strong>✨ Redeemer System Rework</strong><br>• Removed Divine Guardian mode switching; the Redeemer is now permanent in every match<br>• Up to <strong>2</strong> Redeemers per match, randomly bound via the "Holy Redemption" item<br>• Redeemers gain an independent Divine Guardian (2 defenses) + 2 uses of "Holy Redemption"<br><br><strong>⚔️ Reaper Weapon Rework</strong><br>• Left-click single target: Normal Ghost killed in 2 hits, Mother Ghost in 4 hits (pure hit count)<br>• Right-click AoE skill "Harvest": 4-block AoE, 10s cooldown<br><br><strong>👻 Ghost Revival Mechanic Improved</strong><br>• Death state: invisible but free to move (no position lock, no slowdown, no flight)<br>• Revival: random location within the game area (no longer in place)<br>• Keeps the 10s countdown + respawn subtitle/sound<br><br><strong>🎆 Kill Firework Feedback</strong><br>• When a Demon Hunter kills a Ghost, a red-yellow BURST firework blooms at the kill location (detonated 1 tick later)<br>• Explosion particles + wither death sound<br>• Kill subtitle (bilingual): 💥 Elimination! → You killed [player]<br><br><strong>👑 Mother Evolution System</strong><br>• Trigger: Demon Hunter phase with more than 5 players in the match<br>• Spawn: a glowing emerald placed at a random location in the game area (enchant particles + glow effect)<br>• Pickup requirement: only Normal Ghosts can pick it up<br>• Effect: transforms into the Mother Ghost, gains Mother health, and can hunt Demon Hunters<br>• Announcement / subtitle / sound (bilingual)<br><br><strong>🛡️ Demon Hunter Phase Defense Rework</strong><br>• Added faction damage protection, death interception, environmental damage protection<br>• Removed the "no healing" design<br><br><strong>🥩 Stinky Steak Mechanic Change</strong><br>• Right-click to start eating, takes effect after 1 second, switching items interrupts<br><br><strong>🎒 Inventory Management System</strong><br>• Up to 9 items, cannot be placed in the inventory, no stacking<br><br><strong>📋 Command Consolidation &amp; Permission Simplification</strong><br>• divineguardian/ghostparticle merged into /gostadmin<br>• Only three permissions remain: gost.use / gost.player / gost.admin<br><br><strong>🔥 Selection Particle Frame</strong><br>• Flame particle frame displayed for 30 seconds after setting a selection<br><br><strong>🌐 Bilingual Subtitles</strong><br>• Core events now have bilingual subtitles<br><br><strong>⚙️ Config version upgraded to 28</strong><br>Plugin version upgraded to 2.3.1</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="2">
+                    <div><h3>v2.3.0 <span class="version-tag">New Items &amp; Admin Tools</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-2"><strong>🎯 New Items:</strong><br>• <strong>Rush Spear</strong> (<code>GOLDEN_SPEAR</code>): left-click to dash, consumed on use (1.21.4+ only)<br>• <strong>Levitation Potion</strong> (<code>LINGERING_POTION</code>): right-click for 4.5s levitation<br><br><strong>🛠️ New Admin Commands:</strong><br>• <code>/gost start</code> — force start (skips the player count requirement)<br>• <code>/gostadmin testmode</code> — single-player test mode<br>• <code>/gostadmin giveitem &lt;item&gt;</code> — directly receive an item (fuzzy matching supported)<br><br><strong>⚙️ Config version upgraded to 27</strong><br>Plugin version upgraded to 2.3.0<br><br><strong>+ New end-of-game prize leaderboard</strong></div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="3">
+                    <div><h3>v2.2.3 <span class="version-tag">Visual &amp; Audio Immersion, English Support Restored</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-3"><p>🔊 New sound system:<br><strong>Phase sounds:</strong><br>• Last 3 seconds of the preparation countdown: <code>BLOCK_NOTE_BLOCK_HAT</code> (once per second)<br>• Game officially begins: <code>ENTITY_ENDER_DRAGON_GROWL</code> (server-wide)<br>• Human victory: Humans get <code>UI_TOAST_CHALLENGE_COMPLETE</code>, Ghosts get <code>ENTITY_WITHER_DEATH</code><br>• Ghost victory: Ghosts get <code>UI_TOAST_CHALLENGE_COMPLETE</code>, Humans get <code>ENTITY_WITHER_DEATH</code><br><strong>Item distribution sounds:</strong><br>• <code>ENTITY_ITEM_PICKUP</code> played for each player receiving an item (different pitch per item)<br>• Global cue once distribution finishes: <code>BLOCK_NOTE_BLOCK_PLING</code><br><strong>Item use sounds:</strong><br>• Adrenaline: <code>ENTITY_PLAYER_SPLASH</code><br>• Frenzy Potion: <code>ENTITY_WITHER_SHOOT</code><br>• Frost Ball: <code>ENTITY_SNOWBALL_THROW</code><br>• Soul Control: user <code>ENTITY_ILLUSIONER_CAST_SPELL</code>, controlled ghost <code>ENTITY_ELDER_GUARDIAN_CURSE</code><br>• Stinky Steak: <code>ENTITY_GENERIC_EAT</code> + <code>ENTITY_PLAYER_BURP</code><br>• Teleport Pearl: <code>ENTITY_ENDER_PEARL_THROW</code><br>• Soul Detector: user <code>ENTITY_ILLUSIONER_PREPARE_MIRROR</code>, server-wide <code>ENTITY_ENDER_DRAGON_FLAP</code><br>• Second Chance: user <code>ITEM_TOTEM_USE</code>, attacking ghost <code>ENTITY_ELDER_GUARDIAN_CURSE</code>, other players <code>ENTITY_PLAYER_LEVELUP</code><br><strong>🎬 New centered subtitle prompts for items:</strong><br>• Adrenaline user: ⚡ Adrenaline! → Movement speed greatly increased!<br>• Frenzy Potion user: 💢 Frenzy Potion! → Attack and speed increased!<br>• Frost Ball victim: ❄ Frozen! → Movement speed reduced!<br>• Soul Control victim: ✧ Soul Controlled! → Cannot move!<br>• Stinky Steak user: 🥩 So stinky! → Speed increased, but your position is exposed!<br>• Soul Detector target: ⚠ Your position is exposed! → Every player can see you!<br>• Holy Redemption both sides: Redeemer ✝ Holy Redemption successful! / Redeemed ✝ You have been redeemed!<br><strong>🌐 New English language support:</strong> set <code>language.default: en_US</code> in config.yml to switch to English.<br><strong>⚙️ Automatic config migration:</strong> when a config version mismatch is detected, it migrates automatically and backs up the old config as config_old_v{version}.yml.<br><strong>🔧 Fixed 1.20.x API compatibility.</strong><br>Config version upgraded to 26.</p></div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="4">
+                    <div><h3>v2.2.2 <span class="version-tag">Demon Hunter Debut (Major Rework)</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-4"><strong>1. Ghost revival mechanic</strong>: during the Demon Hunter phase, killed Ghosts enter spectator mode with a configurable revival countdown (default 15s), displayed on the ActionBar, with visual and sound effects on revival.<br><strong>2. Smart health adjustment system</strong>: Normal Ghost health reduced to 2, Mother Ghost to 3, Demon Hunter fixed at 2 (all configurable). Automatically adapts to phase changes.<br><strong>3. No-healing mechanic</strong>: healing is disabled for all players during the Demon Hunter phase (natural regen, hunger, potion effects), with clear in-game prompts.<br><strong>4. Reaper damage system</strong>: kill logic based on damage dealt rather than hit count, with a configurable damage value per hit and display of damage and remaining health.<br><strong>5. Divine Guardian 3-hit block mechanic</strong>: the Mother must hit 3 times to break a Demon Hunter's guardian; Normal Ghosts cannot infect during the Demon Hunter phase and can only evade the hunt.<br><strong>6. All Human Divine Guardians auto-activate during the Demon Hunter phase</strong>, with a broadcast when there is no Demon Hunter.<br>Config: revival time, health, damage and other parameters are adjustable under divine-guardian.demon-hunter.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="5">
+                    <div><h3>v2.2.1_Cover <span class="version-tag">Second Stable Release | Fixes for Divine Guardian 2 &amp; Frost Ball</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-5">🎯 Fully optimized language system (core Cover version improvement): greatly expanded default message library, 90+ default Chinese messages, smart message fallback, error isolation protection, plugin startup protection.<br>🛠️ Game balance adjustments: Frost Ball fix (now works on all players), default health changed to 10 hearts, item system optimization, config version update (v19→v20).<br>🌑 Darkness + sprint coexistence system: native DARKNESS effect, attribute modifier adds 30% movement speed, smart check mechanism, version compatibility.<br>🛡️ Divine Guardian system fixes: trigger fix, Redeemer mode optimization, mode-switch stability, cooldown fix.<br>🎯 Item system fixes: "Second Chance" item fix, cooldown synchronization, distribution logic optimization, stronger use feedback.<br>⚙️ Config system upgrade: config version upgraded to 20, darkness effect description updated to "does not affect sprinting", darkness effect enabled by default.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="6">
+                    <div><h3>v2.2.0 <span class="version-tag">New Divine Guardian Mode 2 (New Toy)</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-6">⚡ Divine Guardian Mode 2 — Redeemer system: the last Human becomes the Redeemer, the Holy Redemption item converts Ghost players, random teleport, 2-use limit, highlight + speed effect.<br>🎮 Game mode switching: Mode 1 classic Divine Guardian, Mode 2 Redeemer mode, /divineguardian setmode &lt;1|2&gt;, switching mid-game takes effect immediately.<br>🔧 Full queue system optimization: smart queue cleanup, queue-leave prompts, join-queue guidance, Boss bar sync fix, transparent queue status.<br>🗑️ Code cleanup and performance improvements: removed redundant systems (NPC, standalone currency distribution, spectator system), config cleanup, memory optimization, bug fixes.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="7">
+                    <div><h3>v2.1.3 <span class="version-tag">First Stable Release | Admins Can Play</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-7">🔧 Fixed admin game effect immunity issues: admin darkness effect fix, Mother Ghost root fix, forced effect application, effect cleanup on game start, admin prompts.<br>🎮 Automatic creative-mode player switching: automatic mode switching, forced effect application, fairness guaranteed.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="8">
+                    <div><h3>v2.1.2 <span class="version-tag">New Particle Effects</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-8">👻 New Ghost player particle system: continuous orbiting particles, color differentiation (Mother red / Normal green), smart generation, 21 particle types supported, RGB color system, preparation phase control.<br>🎮 Ghost particle management commands: the full /ghostparticle command set.<br>⚙️ Config system upgrade: added Ghost particle config options, config version upgraded to 14, 21 particle types selectable, full RGB color configuration.<br>🔐 Permission system improvement: added the gost.admin.ghostparticle permission node.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="9">
+                    <div><h3>v2.1.1 <span class="version-tag">Divine Guardian (Major Rework)</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-9">🛡️ New Divine Guardian system: the last remaining Human automatically activates Divine Guardian, 3 infection immunities (configurable), random teleport when attacked, Speed I + glowing effect, invisibility for 10s once uses are exhausted, full admin management.<br>✨ Divine Guardian visual effects: glowing effect, particles on activation/trigger/teleport/expiry, sounds, screen title prompts.<br>🎮 Divine Guardian management commands: the full /divineguardian command set.<br>⚙️ Config system upgrade: added Divine Guardian config options, config version upgraded to 13.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="10">
+                    <div><h3>v2.1.0 <span class="version-tag">Prize Distribution Optimization</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-10">🎮 Full prize distribution optimization: on Human victory Humans get 70% / Ghosts 30%; on Ghost victory Ghosts get 100%; Human prizes 100% by survival time ratio; Ghost prizes 70% by survival time + 30% by infection count ratio.<br>👻 Converted player prize optimization: accumulated Ghost time record, players converted back to Humans receive a 20% bonus compensation, Ghost prize inheritance.<br>New heartbeat sound system: controlled via /gostadmin heartbeat.<br>Item system upgrade: Stinky Steak gains a glowing effect and cooldown, item cooldowns adjusted.<br>New Ghost-to-Human conversion feature (disabled by default).</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="11">
+                    <div><h3>v2.0.2 <span class="version-tag">Bug Fixes, Dark Immersion</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-11">Fixed compilation errors, fixed Soul Detector not working, added the darkness effect system, added the /gostadmin dark command.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="12">
+                    <div><h3>v2.0.1 <span class="version-tag">Teleport Pearl &amp; Stinky Steak Added</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-12">Added the Teleport Pearl and Stinky Steak, smart countdown system.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="13">
+                    <div><h3>v2.0.0 <span class="version-tag">Initial Release</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-13">Architecture refactor, standalone area system, item system optimization.</div>
+            </div><div class="version-item">
+                <div class="version-header" data-idx="14">
+                    <div><h3>v1.0.0 <span class="version-tag">Deprecated</span></h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-14">⚠️ This version is deprecated (the mechanics did not match the author's vision). Basic infection PvP gameplay.</div>
+            </div></div>
+        </div>
+
+        <footer>🎉 Start your survival showdown! /gost join | Infection: left-click / right-click | Item drops highlight everyone for 5s | The Demon Hunter phase brings a whole new experience</footer>
+    </div>
+</div>
+
+<!-- ===== Table of contents ===== -->
+<div class="toc-pill-btn" id="tocPillBtn">
+    <span class="pill-icon">📋</span>
+</div>
+<div class="toc-panel" id="tocPanel">
+    <a class="toc-item active" href="#section-core"><span class="toc-icon">🎯</span>Core Gameplay</a>
+    <a class="toc-item" href="#section-divine"><span class="toc-icon">🛡️</span>Divine Guardian</a>
+    <a class="toc-item" href="#section-redeemer"><span class="toc-icon">✨</span>Redeemer</a>
+    <a class="toc-item" href="#section-demonhunter"><span class="toc-icon">⚔️</span>Demon Hunter</a>
+    <a class="toc-item" href="#section-items"><span class="toc-icon">🧰</span>Items</a>
+    <a class="toc-item" href="#section-hunger"><span class="toc-icon">🍖</span>Hunger System</a>
+    <a class="toc-item" href="#section-sound"><span class="toc-icon">🔊</span>Sound System</a>
+    <a class="toc-item" href="#section-ghost2human"><span class="toc-icon">👻</span>Ghost→Human</a>
+    <a class="toc-item" href="#section-economy"><span class="toc-icon">🏆</span>Economy</a>
+    <a class="toc-item" href="#section-features"><span class="toc-icon">✨</span>Special Systems</a>
+    <a class="toc-item" href="#section-commands"><span class="toc-icon">📋</span>Commands</a>
+    <a class="toc-item" href="#section-permissions"><span class="toc-icon">🔐</span>Permissions</a>
+    <a class="toc-item" href="#section-versions"><span class="toc-icon">📈</span>Version History</a>
+</div>
+
+<div class="toc-mobile-float" id="tocMobileFloat">
+    <i class="fas fa-list"></i> Contents
+</div>
+<div class="toc-mobile-overlay" id="tocMobileOverlay">
+    <div class="close-toc" id="closeTocMobile">✕</div>
+    <div class="toc-grid">
+        <a class="toc-item-mobile" href="#section-core" style="border: 1px solid rgba(255, 80, 80, 0.3); background: rgba(255, 80, 80, 0.1);"><span class="toc-icon">🎯</span>Core Gameplay</a>
+        <a class="toc-item-mobile" href="#section-divine"><span class="toc-icon">🛡️</span>Divine Guardian</a>
+        <a class="toc-item-mobile" href="#section-redeemer"><span class="toc-icon">✨</span>Redeemer</a>
+        <a class="toc-item-mobile" href="#section-demonhunter"><span class="toc-icon">⚔️</span>Demon Hunter</a>
+        <a class="toc-item-mobile" href="#section-items"><span class="toc-icon">🧰</span>Items</a>
+        <a class="toc-item-mobile" href="#section-hunger"><span class="toc-icon">🍖</span>Hunger System</a>
+        <a class="toc-item-mobile" href="#section-sound"><span class="toc-icon">🔊</span>Sound System</a>
+        <a class="toc-item-mobile" href="#section-ghost2human"><span class="toc-icon">👻</span>Ghost→Human</a>
+        <a class="toc-item-mobile" href="#section-economy"><span class="toc-icon">🏆</span>Economy</a>
+        <a class="toc-item-mobile" href="#section-features"><span class="toc-icon">✨</span>Special Systems</a>
+        <a class="toc-item-mobile" href="#section-commands"><span class="toc-icon">📋</span>Commands</a>
+        <a class="toc-item-mobile" href="#section-permissions"><span class="toc-icon">🔐</span>Permissions</a>
+        <a class="toc-item-mobile" href="#section-versions"><span class="toc-icon">📈</span>Version History</a>
+    </div>
+</div>
+
+<div class="back-to-top" id="backToTop">👆</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <span class="modal-close">×</span>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<script>
+    // ========== Item data ==========
+    const itemsDetailEn = {
+        reaper: { name: "🗡️ Reaper", desc: "Demon Hunter exclusive weapon (dual skill)", faction: "human", detail: "Effects (v2.3.1 rework):<br><strong>Left-click single target</strong>: Normal Ghost killed in <strong>2 hits</strong>, Mother Ghost killed in <strong>4 hits</strong> (pure hit-count based)<br><strong>Right-click AoE skill \"Harvest\"</strong> (v2.3.1): 4-block radius AoE, 10s cooldown, impact particles + wither death sound<br>Attack cooldown: 2s<br>Sounds: no sound on left-click, AoE effect on right-click" },
+        holyRedemption: { name: "💊 Holy Redemption", desc: "Redeemer exclusive item", faction: "human", detail: "Effect: Use on a Ghost player to convert them back to the Human faction<br>Uses: <strong>2</strong> (since v2.3.1)<br>Cooldown: 10s<br>The Redeemer is randomly teleported to a safe location after use<br>Sound: <code>ITEM_TOTEM_USE</code>" },
+        secondChance: { name: "❤️ Second Chance", desc: "Passive trigger", faction: "human", detail: "Effect: A Human-exclusive item. Automatically triggers when infected by a Ghost, negating the infection and keeping you Human, then enters cooldown (180s). If infected during cooldown you become a Ghost normally.<br>Cooldown: 180s<br>Sounds: user <code>ITEM_TOTEM_USE</code>, attacking ghost <code>ENTITY_ELDER_GUARDIAN_CURSE</code>, other players <code>ENTITY_PLAYER_LEVELUP</code>" },
+        iceBall: { name: "🧊 Frost Ball", desc: "Throwing control item", faction: "neutral", detail: "Effect: On hit, applies <strong>Slowness III (3s)</strong> to the target. Works on all players (Human/Ghost) — great for escaping or chasing.<br>Sound: throw <code>ENTITY_SNOWBALL_THROW</code>" },
+        stinkySteak: { name: "🥩 Stinky Steak", desc: "Speed item", faction: "neutral", detail: "Effect (v2.3.1 change):<br><strong>Right-click to start eating</strong>; the effect applies after 1 second<br>Switching items <strong>interrupts</strong> eating<br>Grants <strong>Speed III (14s)</strong> with a glowing effect (10s)<br>Ignores hunger<br>Sounds: <code>ENTITY_GENERIC_EAT</code> + <code>ENTITY_PLAYER_BURP</code>" },
+        soulControl: { name: "🔮 Soul Control", desc: "Control item", faction: "human", detail: "Effect: A Human-exclusive item. Briefly controls all Ghosts on the field, freezing the entire Ghost faction for 6 seconds.<br>Cooldown: 18s<br>Sounds: user <code>ENTITY_ILLUSIONER_CAST_SPELL</code>, controlled ghost <code>ENTITY_ELDER_GUARDIAN_CURSE</code>" },
+        soulDetector: { name: "👁️ Soul Detector", desc: "Detection item", faction: "ghost", detail: "Effect: Reveals the position of all players for 25 seconds.<br>Cooldown: 35s<br>Sounds: user <code>ENTITY_ILLUSIONER_PREPARE_MIRROR</code>, server-wide <code>ENTITY_ENDER_DRAGON_FLAP</code>" },
+        teleportPearl: { name: "🪄 Teleport Pearl", desc: "Tactical teleport item", faction: "neutral", detail: "Effect: Throwing teleports you to the pearl's landing spot. Usable by both Humans and Ghosts (right-click only).<br>Cooldown: 20s<br>Sound: <code>ENTITY_ENDER_PEARL_THROW</code>" },
+        adrenaline: { name: "🧪 Adrenaline", desc: "Human exclusive", faction: "human", detail: "Effect: Grants Speed II for 10 seconds.<br>Sound: <code>ENTITY_PLAYER_SPLASH</code>" },
+        frenzy: { name: "🔥 Frenzy Potion", desc: "Ghost exclusive", faction: "ghost", detail: "Effect: Grants Speed II for 10 seconds.<br>Sound: <code>ENTITY_WITHER_SHOOT</code>" },
+        spearRush: { name: "🗡️ Rush Spear", desc: "Right-click dash, all-version compatible", faction: "neutral", detail: "Effect (v2.3.2 update):<br><strong>Right-click</strong> to dash forward <strong>5 blocks</strong>; the item is consumed immediately.<br><strong>All-version compatible</strong>: displays as a <strong>Trident</strong> on <strong>&lt;1.21.4</strong> and as a <strong>Spear</strong> on ≥1.21.4 — identical functionality.<br>Sound: spear dash sound (built into the game)." },
+        levitationPotion: { name: "🧪 Levitation Potion", desc: "Right-click for levitation", faction: "neutral", detail: "Effect: Right-click to gain <strong>Levitation</strong> for 4.5 seconds (roughly 3.4 blocks of height).<br>Sound: <code>ENTITY_PLAYER_SPLASH</code>" }
+    };
+
+    // ========== Version history data ==========
+    const versionData = {
+        en: [
+            { version: "v2.3.2", tag: "Current | Rush Spear all-version compatibility & Hunger System", content: `<strong>🗡️ Rush Spear — All-Version Compatibility</strong><br>• The Rush Spear now supports <strong>all versions</strong> (1.20.x ~ 1.21.x)<br>• Displays as a <strong>Trident</strong> on <strong>&lt;1.21.4</strong> and as a <strong>Spear</strong> on ≥1.21.4 — identical functionality<br>• Right-click to dash forward <strong>5 blocks</strong>; the item is consumed immediately<br><br><strong>🍖 New Hunger System</strong><br>• In-match hunger drain, <strong>configurable and toggleable</strong><br>• In-match hunger is <strong>independent</strong> of outside hunger; the pre-match state is restored after settlement<br>• Hunger <strong>restored to full</strong> on entering a match; sprinting drains it normally<br>• Human crouch (Shift): restores <strong>1</strong> hunger per second<br>• Ghost crouch (Shift): restores 1 hunger every <strong>0.8</strong> seconds<br>• Hunger <strong>restored to full</strong> when switching factions<br>• Hunger <strong>restored to full and no longer drains</strong> during the Demon Hunter phase<br><br><strong>⚙️ Config version upgraded to 29</strong><br>Plugin version upgraded to 2.3.2` },
+            { version: "v2.3.1", tag: "Redeemer Rework & Reaper Redo", content: `<strong>✨ Redeemer System Rework</strong><br>• Removed Divine Guardian mode switching; the Redeemer is now permanent in every match<br>• Up to <strong>2</strong> Redeemers per match, randomly bound via the "Holy Redemption" item<br>• Redeemers gain an independent Divine Guardian (2 defenses) + 2 uses of "Holy Redemption"<br><br><strong>⚔️ Reaper Weapon Rework</strong><br>• Left-click single target: Normal Ghost killed in 2 hits, Mother Ghost in 4 hits (pure hit count)<br>• Right-click AoE skill "Harvest": 4-block AoE, 10s cooldown<br><br><strong>👻 Ghost Revival Mechanic Improved</strong><br>• Death state: invisible but free to move (no position lock, no slowdown, no flight)<br>• Revival: random location within the game area (no longer in place)<br>• Keeps the 10s countdown + respawn subtitle/sound<br><br><strong>🎆 Kill Firework Feedback</strong><br>• When a Demon Hunter kills a Ghost, a red-yellow BURST firework blooms at the kill location (detonated 1 tick later)<br>• Explosion particles + wither death sound<br>• Kill subtitle (bilingual): 💥 Elimination! → You killed [player]<br><br><strong>👑 Mother Evolution System</strong><br>• Trigger: Demon Hunter phase with more than 5 players in the match<br>• Spawn: a glowing emerald placed at a random location in the game area (enchant particles + glow effect)<br>• Pickup requirement: only Normal Ghosts can pick it up<br>• Effect: transforms into the Mother Ghost, gains Mother health, and can hunt Demon Hunters<br>• Announcement / subtitle / sound (bilingual)<br><br><strong>🛡️ Demon Hunter Phase Defense Rework</strong><br>• Added faction damage protection, death interception, environmental damage protection<br>• Removed the "no healing" design<br><br><strong>🥩 Stinky Steak Mechanic Change</strong><br>• Right-click to start eating, takes effect after 1 second, switching items interrupts<br><br><strong>🎒 Inventory Management System</strong><br>• Up to 9 items, cannot be placed in the inventory, no stacking<br><br><strong>📋 Command Consolidation &amp; Permission Simplification</strong><br>• divineguardian/ghostparticle merged into /gostadmin<br>• Only three permissions remain: gost.use / gost.player / gost.admin<br><br><strong>🔥 Selection Particle Frame</strong><br>• Flame particle frame displayed for 30 seconds after setting a selection<br><br><strong>🌐 Bilingual Subtitles</strong><br>• Core events now have bilingual subtitles<br><br><strong>⚙️ Config version upgraded to 28</strong><br>Plugin version upgraded to 2.3.1` },
+            { version: "v2.3.0", tag: "New Items & Admin Tools", content: `<strong>🎯 New Items:</strong><br>• <strong>Rush Spear</strong> (<code>GOLDEN_SPEAR</code>): left-click to dash, consumed on use (1.21.4+ only)<br>• <strong>Levitation Potion</strong> (<code>LINGERING_POTION</code>): right-click for 4.5s levitation<br><br><strong>🛠️ New Admin Commands:</strong><br>• <code>/gost start</code> — force start (skips the player count requirement)<br>• <code>/gostadmin testmode</code> — single-player test mode<br>• <code>/gostadmin giveitem &lt;item&gt;</code> — directly receive an item (fuzzy matching supported)<br><br><strong>⚙️ Config version upgraded to 27</strong><br>Plugin version upgraded to 2.3.0<br><br><strong>+ New end-of-game prize leaderboard</strong>` },
+            { version: "v2.2.3", tag: "Visual & Audio Immersion, English Support Restored", content: `<p>🔊 New sound system:<br><strong>Phase sounds:</strong><br>• Last 3 seconds of the preparation countdown: <code>BLOCK_NOTE_BLOCK_HAT</code> (once per second)<br>• Game officially begins: <code>ENTITY_ENDER_DRAGON_GROWL</code> (server-wide)<br>• Human victory: Humans get <code>UI_TOAST_CHALLENGE_COMPLETE</code>, Ghosts get <code>ENTITY_WITHER_DEATH</code><br>• Ghost victory: Ghosts get <code>UI_TOAST_CHALLENGE_COMPLETE</code>, Humans get <code>ENTITY_WITHER_DEATH</code><br><strong>Item distribution sounds:</strong><br>• <code>ENTITY_ITEM_PICKUP</code> played for each player receiving an item (different pitch per item)<br>• Global cue once distribution finishes: <code>BLOCK_NOTE_BLOCK_PLING</code><br><strong>Item use sounds:</strong><br>• Adrenaline: <code>ENTITY_PLAYER_SPLASH</code><br>• Frenzy Potion: <code>ENTITY_WITHER_SHOOT</code><br>• Frost Ball: <code>ENTITY_SNOWBALL_THROW</code><br>• Soul Control: user <code>ENTITY_ILLUSIONER_CAST_SPELL</code>, controlled ghost <code>ENTITY_ELDER_GUARDIAN_CURSE</code><br>• Stinky Steak: <code>ENTITY_GENERIC_EAT</code> + <code>ENTITY_PLAYER_BURP</code><br>• Teleport Pearl: <code>ENTITY_ENDER_PEARL_THROW</code><br>• Soul Detector: user <code>ENTITY_ILLUSIONER_PREPARE_MIRROR</code>, server-wide <code>ENTITY_ENDER_DRAGON_FLAP</code><br>• Second Chance: user <code>ITEM_TOTEM_USE</code>, attacking ghost <code>ENTITY_ELDER_GUARDIAN_CURSE</code>, other players <code>ENTITY_PLAYER_LEVELUP</code><br><strong>🎬 New centered subtitle prompts for items:</strong><br>• Adrenaline user: ⚡ Adrenaline! → Movement speed greatly increased!<br>• Frenzy Potion user: 💢 Frenzy Potion! → Attack and speed increased!<br>• Frost Ball victim: ❄ Frozen! → Movement speed reduced!<br>• Soul Control victim: ✧ Soul Controlled! → Cannot move!<br>• Stinky Steak user: 🥩 So stinky! → Speed increased, but your position is exposed!<br>• Soul Detector target: ⚠ Your position is exposed! → Every player can see you!<br>• Holy Redemption both sides: Redeemer ✝ Holy Redemption successful! / Redeemed ✝ You have been redeemed!<br><strong>🌐 New English language support:</strong> set <code>language.default: en_US</code> in config.yml to switch to English.<br><strong>⚙️ Automatic config migration:</strong> when a config version mismatch is detected, it migrates automatically and backs up the old config as config_old_v{version}.yml.<br><strong>🔧 Fixed 1.20.x API compatibility.</strong><br>Config version upgraded to 26.</p>` },
+            { version: "v2.2.2", tag: "Demon Hunter Debut (Major Rework)", content: "<strong>1. Ghost revival mechanic</strong>: during the Demon Hunter phase, killed Ghosts enter spectator mode with a configurable revival countdown (default 15s), displayed on the ActionBar, with visual and sound effects on revival.<br><strong>2. Smart health adjustment system</strong>: Normal Ghost health reduced to 2, Mother Ghost to 3, Demon Hunter fixed at 2 (all configurable). Automatically adapts to phase changes.<br><strong>3. No-healing mechanic</strong>: healing is disabled for all players during the Demon Hunter phase (natural regen, hunger, potion effects), with clear in-game prompts.<br><strong>4. Reaper damage system</strong>: kill logic based on damage dealt rather than hit count, with a configurable damage value per hit and display of damage and remaining health.<br><strong>5. Divine Guardian 3-hit block mechanic</strong>: the Mother must hit 3 times to break a Demon Hunter's guardian; Normal Ghosts cannot infect during the Demon Hunter phase and can only evade the hunt.<br><strong>6. All Human Divine Guardians auto-activate during the Demon Hunter phase</strong>, with a broadcast when there is no Demon Hunter.<br>Config: revival time, health, damage and other parameters are adjustable under divine-guardian.demon-hunter." },
+            { version: "v2.2.1_Cover", tag: "Second Stable Release | Fixes for Divine Guardian 2 & Frost Ball", content: "🎯 Fully optimized language system (core Cover version improvement): greatly expanded default message library, 90+ default Chinese messages, smart message fallback, error isolation protection, plugin startup protection.<br>🛠️ Game balance adjustments: Frost Ball fix (now works on all players), default health changed to 10 hearts, item system optimization, config version update (v19→v20).<br>🌑 Darkness + sprint coexistence system: native DARKNESS effect, attribute modifier adds 30% movement speed, smart check mechanism, version compatibility.<br>🛡️ Divine Guardian system fixes: trigger fix, Redeemer mode optimization, mode-switch stability, cooldown fix.<br>🎯 Item system fixes: \"Second Chance\" item fix, cooldown synchronization, distribution logic optimization, stronger use feedback.<br>⚙️ Config system upgrade: config version upgraded to 20, darkness effect description updated to \"does not affect sprinting\", darkness effect enabled by default." },
+            { version: "v2.2.0", tag: "New Divine Guardian Mode 2 (New Toy)", content: "⚡ Divine Guardian Mode 2 — Redeemer system: the last Human becomes the Redeemer, the Holy Redemption item converts Ghost players, random teleport, 2-use limit, highlight + speed effect.<br>🎮 Game mode switching: Mode 1 classic Divine Guardian, Mode 2 Redeemer mode, /divineguardian setmode &lt;1|2&gt;, switching mid-game takes effect immediately.<br>🔧 Full queue system optimization: smart queue cleanup, queue-leave prompts, join-queue guidance, Boss bar sync fix, transparent queue status.<br>🗑️ Code cleanup and performance improvements: removed redundant systems (NPC, standalone currency distribution, spectator system), config cleanup, memory optimization, bug fixes." },
+            { version: "v2.1.3", tag: "First Stable Release | Admins Can Play", content: "🔧 Fixed admin game effect immunity issues: admin darkness effect fix, Mother Ghost root fix, forced effect application, effect cleanup on game start, admin prompts.<br>🎮 Automatic creative-mode player switching: automatic mode switching, forced effect application, fairness guaranteed." },
+            { version: "v2.1.2", tag: "New Particle Effects", content: "👻 New Ghost player particle system: continuous orbiting particles, color differentiation (Mother red / Normal green), smart generation, 21 particle types supported, RGB color system, preparation phase control.<br>🎮 Ghost particle management commands: the full /ghostparticle command set.<br>⚙️ Config system upgrade: added Ghost particle config options, config version upgraded to 14, 21 particle types selectable, full RGB color configuration.<br>🔐 Permission system improvement: added the gost.admin.ghostparticle permission node." },
+            { version: "v2.1.1", tag: "Divine Guardian (Major Rework)", content: "🛡️ New Divine Guardian system: the last remaining Human automatically activates Divine Guardian, 3 infection immunities (configurable), random teleport when attacked, Speed I + glowing effect, invisibility for 10s once uses are exhausted, full admin management.<br>✨ Divine Guardian visual effects: glowing effect, particles on activation/trigger/teleport/expiry, sounds, screen title prompts.<br>🎮 Divine Guardian management commands: the full /divineguardian command set.<br>⚙️ Config system upgrade: added Divine Guardian config options, config version upgraded to 13." },
+            { version: "v2.1.0", tag: "Prize Distribution Optimization", content: "🎮 Full prize distribution optimization: on Human victory Humans get 70% / Ghosts 30%; on Ghost victory Ghosts get 100%; Human prizes 100% by survival time ratio; Ghost prizes 70% by survival time + 30% by infection count ratio.<br>👻 Converted player prize optimization: accumulated Ghost time record, players converted back to Humans receive a 20% bonus compensation, Ghost prize inheritance.<br>New heartbeat sound system: controlled via /gostadmin heartbeat.<br>Item system upgrade: Stinky Steak gains a glowing effect and cooldown, item cooldowns adjusted.<br>New Ghost-to-Human conversion feature (disabled by default)." },
+            { version: "v2.0.2", tag: "Bug Fixes, Dark Immersion", content: "Fixed compilation errors, fixed Soul Detector not working, added the darkness effect system, added the /gostadmin dark command." },
+            { version: "v2.0.1", tag: "Teleport Pearl & Stinky Steak Added", content: "Added the Teleport Pearl and Stinky Steak, smart countdown system." },
+            { version: "v2.0.0", tag: "Initial Release", content: "Architecture refactor, standalone area system, item system optimization." },
+            { version: "v1.0.0", tag: "Deprecated", content: "⚠️ This version is deprecated (the mechanics did not match the author's vision). Basic infection PvP gameplay." }
+        ]
+    };
+
+    // ========== Helper functions ==========
+
+    function initCarousel(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const images = [
+            "images/screenshot1.png",
+            "images/screenshot2.png",
+            "images/screenshot3.png",
+            "images/screenshot4.png",
+            "images/screenshot5.png"
+        ];
+        if (images.length === 0) { container.style.display = 'none'; return; }
+        container.innerHTML = `
+            <div class="carousel-slides" id="slides-${containerId}"></div>
+            <button class="carousel-btn carousel-btn-left" id="prev-${containerId}"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn carousel-btn-right" id="next-${containerId}"><i class="fas fa-chevron-right"></i></button>
+            <div class="carousel-dots" id="dots-${containerId}"></div>
+        `;
+        const slidesDiv = document.getElementById(`slides-${containerId}`);
+        const dotsDiv = document.getElementById(`dots-${containerId}`);
+
+        images.forEach((src, idx) => {
+            const slide = document.createElement('div'); slide.className = 'carousel-slide';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Gost screenshot ${idx+1}`;
+            img.loading = 'lazy';
+            img.onerror = () => {
+                img.style.background = 'rgba(255,80,80,0.1)';
+                img.style.minHeight = '200px';
+                img.alt = 'Image failed to load';
+            };
+            slide.appendChild(img);
+            slidesDiv.appendChild(slide);
+
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.addEventListener('click', () => goToSlide(idx));
+            dotsDiv.appendChild(dot);
+        });
+
+        let current = 0, interval;
+
+        function update() {
+            slidesDiv.style.transform = `translateX(-${current * 100}%)`;
+            document.querySelectorAll(`#dots-${containerId} .dot`).forEach((d, i) => {
+                d.classList.toggle('active', i === current);
+            });
+        }
+
+        function next() {
+            current = (current + 1) % images.length;
+            update();
+            resetInterval();
+        }
+
+        function prev() {
+            current = (current - 1 + images.length) % images.length;
+            update();
+            resetInterval();
+        }
+
+        function goToSlide(idx) {
+            current = idx;
+            update();
+            resetInterval();
+        }
+
+        function resetInterval() {
+            if (interval) clearInterval(interval);
+            if (images.length > 1) interval = setInterval(next, 4000);
+        }
+
+        document.getElementById(`prev-${containerId}`).addEventListener('click', prev);
+        document.getElementById(`next-${containerId}`).addEventListener('click', next);
+
+        update();
+        resetInterval();
+
+        container.addEventListener('mouseenter', () => interval && clearInterval(interval));
+        container.addEventListener('mouseleave', () => { if (images.length > 1) interval = setInterval(next, 4000); });
+
+        // ===== Click to view full size =====
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('imgModalContent');
+        const closeModal = document.getElementById('imageModalClose');
+
+        container.addEventListener('click', function(e) {
+            const target = e.target.closest('img');
+            if (target) {
+                modal.style.display = 'block';
+                modalImg.src = target.src;
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+
+    function renderItems() {
+        const container = document.getElementById('items-list-en');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let key in itemsDetailEn) {
+            const item = itemsDetailEn[key];
+            let factionClass = '';
+            if (item.faction === 'human') factionClass = 'card-human';
+            else if (item.faction === 'ghost') factionClass = 'card-ghost';
+            const card = document.createElement('div'); card.className = `card ${factionClass}`;
+            card.innerHTML = `<strong>${item.name}</strong><br><span style="font-size:0.85rem; color:#b8c4e0;">${item.desc}</span><br><button class="btn-detail" data-item="${key}">📖 Details</button>`;
+            container.appendChild(card);
+        }
+        document.querySelectorAll('.btn-detail[data-item]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const key = this.dataset.item;
+                const item = itemsDetailEn[key];
+                document.getElementById('modal-body').innerHTML = `<div style="font-size:1.5rem;">${item.name}</div><hr><div style="line-height:1.6; color:#b8c4e0;">${item.detail}</div>`;
+                showModal();
+            });
+        });
+    }
+
+    function showModal() { document.getElementById('modal').classList.add('show'); }
+    function hideModal() { document.getElementById('modal').classList.remove('show'); }
+
+    function initCollapsibles() {
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                content.classList.toggle('show');
+                const icon = this.querySelector('i');
+                if (icon) {
+                    icon.className = content.classList.contains('show') ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+                }
+            });
+        });
+    }
+
+    function renderVersionList() {
+        const container = document.getElementById('version-list-en');
+        if (!container) return;
+        const data = versionData.en;
+        container.innerHTML = '';
+        data.forEach((ver, idx) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'version-item';
+            itemDiv.innerHTML = `
+                <div class="version-header" data-idx="${idx}">
+                    <div><h3>${ver.version} ${ver.tag ? `<span class="version-tag">${ver.tag}</span>` : ''}</h3></div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="version-detail" id="version-detail-${idx}">${ver.content}</div>
+            `;
+            container.appendChild(itemDiv);
+        });
+        document.querySelectorAll('.version-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const idx = this.dataset.idx;
+                const detail = document.getElementById(`version-detail-${idx}`);
+                const icon = this.querySelector('i');
+                if (detail) {
+                    detail.classList.toggle('show');
+                    if (icon) {
+                        icon.className = detail.classList.contains('show') ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+                    }
+                }
+            });
+        });
+    }
+
+    function initVersionTabs() {
+        document.querySelectorAll('.version-tabs').forEach(tabsContainer => {
+            const tabs = tabsContainer.querySelectorAll('.version-tab');
+            const panels = tabsContainer.parentElement.querySelectorAll('.version-panel');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const panelId = this.dataset.panel;
+                    panels.forEach(p => p.classList.remove('active'));
+                    const target = document.getElementById(panelId);
+                    if (target) target.classList.add('active');
+                });
+            });
+        });
+    }
+
+    function initTOC() {
+        const pillBtn = document.getElementById('tocPillBtn');
+        const panel = document.getElementById('tocPanel');
+        let panelOpen = false;
+        function openPanel() { panel.classList.add('open'); panelOpen = true; }
+        function closePanel() { panel.classList.remove('open'); panelOpen = false; }
+        function togglePanel() { panelOpen ? closePanel() : openPanel(); }
+
+        // Extract the section id from a href like "#section-core" or a full URL with a hash
+        function targetIdFromHref(href) {
+            const hashIndex = href.indexOf('#');
+            return hashIndex === -1 ? '' : href.substring(hashIndex + 1);
+        }
+
+        if (pillBtn && panel) {
+            pillBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                togglePanel();
+            });
+            panel.addEventListener('click', function(e) { e.stopPropagation(); });
+            document.addEventListener('click', function(e) {
+                if (panelOpen && !panel.contains(e.target) && e.target !== pillBtn) {
+                    closePanel();
+                }
+            });
+            window.addEventListener('scroll', function() { if (panelOpen) closePanel(); });
+            panel.querySelectorAll('.toc-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = targetIdFromHref(this.getAttribute('href'));
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        closePanel();
+                        setTimeout(updateActiveToc, 300);
+                    }
+                });
+            });
+        }
+
+        const mobileFloat = document.getElementById('tocMobileFloat');
+        const overlay = document.getElementById('tocMobileOverlay');
+        const closeBtn = document.getElementById('closeTocMobile');
+        if (mobileFloat && overlay) {
+            mobileFloat.addEventListener('click', function() {
+                overlay.classList.add('open');
+            });
+            closeBtn.addEventListener('click', function() {
+                overlay.classList.remove('open');
+            });
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove('open');
+                }
+            });
+            overlay.querySelectorAll('.toc-item-mobile').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = targetIdFromHref(this.getAttribute('href'));
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        overlay.classList.remove('open');
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        setTimeout(updateActiveToc, 300);
+                    }
+                });
+            });
+        }
+
+        const sectionIds = [
+            'section-core', 'section-divine', 'section-redeemer', 'section-demonhunter',
+            'section-items', 'section-hunger', 'section-sound', 'section-ghost2human',
+            'section-economy', 'section-features', 'section-commands', 'section-permissions',
+            'section-versions'
+        ];
+        function updateActiveToc() {
+            let currentId = sectionIds[0];
+            const scrollY = window.scrollY + 100;
+            for (const id of sectionIds) {
+                const el = document.getElementById(id);
+                if (el && el.offsetTop <= scrollY) {
+                    currentId = id;
+                }
+            }
+            if (panel) {
+                panel.querySelectorAll('.toc-item').forEach(item => {
+                    const href = targetIdFromHref(item.getAttribute('href'));
+                    item.classList.toggle('active', href === currentId);
+                });
+            }
+            if (overlay) {
+                overlay.querySelectorAll('.toc-item-mobile').forEach(item => {
+                    const href = targetIdFromHref(item.getAttribute('href'));
+                    item.style.border = href === currentId ? '1px solid rgba(255,80,80,0.3)' : '';
+                    item.style.background = href === currentId ? 'rgba(255,80,80,0.1)' : '';
+                });
+            }
+        }
+        window.addEventListener('scroll', updateActiveToc);
+        window.addEventListener('load', function() {
+            setTimeout(updateActiveToc, 200);
+        });
+    }
+
+    function initBackToTop() {
+        const backBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backBtn.classList.add('visible');
+            } else {
+                backBtn.classList.remove('visible');
+            }
+        });
+        backBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // ========== Init ==========
+    (function() {
+        initCarousel('carousel');
+        renderItems();
+        initCollapsibles();
+        renderVersionList();
+        initVersionTabs();
+        initTOC();
+        initBackToTop();
+
+        document.querySelector('.modal-close').addEventListener('click', hideModal);
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('modal')) hideModal();
+        });
+
+        document.querySelectorAll('.collapsible-content').forEach(c => c.classList.remove('show'));
+        document.querySelectorAll('.version-detail').forEach(d => d.classList.remove('show'));
+
+        console.log('✅ Gost v2.3.2 documentation (EN) fully initialized');
+    })();
+
+    // ==================== Mouse-follow 3D effect ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.btn-detail, .link-btn, .migration-tool-btn, .version-tab');
+
+        elements.forEach(el => {
+            el.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                const rotateX = y * -8;
+                const rotateY = x * 8;
+                this.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                this.style.transition = 'transform 0.1s ease';
+            });
+
+            el.addEventListener('mouseleave', function() {
+                this.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+                this.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
